@@ -1,4 +1,9 @@
 <<<<<<< HEAD
+Your changes
+=======
+Remote changes
+>>>>>>> FETCH_HEAD
+
 =======
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
@@ -69,3 +74,6 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 # Dashboard
 >>>>>>> 06bdf41 (git add .)
 # cpanl
+=======
+# cpanl
+>>>>>>> cff144524e25f5c027cac11a8b93991d8a4d3552
