@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\auth\LoginController;
+use App\Http\Controllers\auth\RegisterController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +23,10 @@ use App\Http\Controllers\Dashboard\DashboardController;
 // });
 Route::get('/',[HomeController::class,'home'])->name('home');
 Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard.index');
+
+//authentication
+Route::get('/login',[LoginController::class,'index'])->name('login');
+Route::post('/login',[LoginController::class,'login'])->name('login');
+
+Route::get('/register',[RegisterController::class,'index'])->name('register');
+Route::post('/register',[RegisterController::class,'register'])->name('register');
