@@ -6,6 +6,8 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\RegisterController;
 
+use App\Http\Controllers\auth\RestPasswordController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +29,12 @@ Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard.i
 //authentication
 Route::get('/login',[LoginController::class,'index'])->name('login');
 Route::post('/login',[LoginController::class,'login'])->name('login');
+Route::get('/logout',[LoginController::class,'logout'])->name('logout');
 
 Route::get('/register',[RegisterController::class,'index'])->name('register');
 Route::post('/register',[RegisterController::class,'register'])->name('register');
+Route::get('/request_password',[RestPasswordController::class,'index'])->name('password.request');
+Route::post('/request_password',[RestPasswordController::class,'sendEmail'])->name('password.request');
+///////after return from email//////
+Route::get('/reset_password/{token}',[RestPasswordController::class,'resetForm'])->name('password.reset');
+Route::post('/reset_password',[RestPasswordController::class,'resetPassword'])->name('password.update');

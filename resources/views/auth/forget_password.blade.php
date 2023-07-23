@@ -1,6 +1,6 @@
 @extends('layout.app')
 @section('title')
-    Login
+    Forget Password
 @endsection
 
 @section('contents')
@@ -21,8 +21,8 @@
                                             <strong>{{ session('msg') }}</strong>
                                         </div>
                                     @endif
-                                    <h3 class="mb-5 text-uppercase"> Login form</h3>
-                                    <form action="{{ route('login') }}" method="post">
+                                    <h3 class="mb-5 text-uppercase"> Forget Password</h3>
+                                    <form action="{{route('password.request')}}" method="post">
                                         <div class="row">
 
                                             @csrf
@@ -40,25 +40,12 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-12 mb-4">
-                                                <div class="form-outline">
-                                                    <label class="form-label" for="form3Example1m1">Password</label>
-                                                    <input type="password" id="form3Example1m1" name="password"
-                                                        class="form-control form-control-lg" />
-                                                    @error('password')
-                                                        <div class="alert alert-danger" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </div>
-                                                    @enderror
-                                                </div>
-                                            </div>
+
 
                                         </div>
-                                        <div class="m-3 pt-3">
-                                            <a href="{{route('password.request')}}">Forget Your Password ??</a>
-                                        </div>
+
                                         <div class="d-flex justify-content-end pt-3">
-                                            <input type="submit" class="btn btn-warning btn-lg ms-2"value="Login">
+                                            <input type="submit" class="btn btn-warning btn-lg ms-2"value="Send">
                                         </div>
 
 

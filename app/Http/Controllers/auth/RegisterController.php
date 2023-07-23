@@ -10,6 +10,10 @@ use App\Models\User;
 
 class RegisterController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
     public function index()
     {
         return view('auth.register');
@@ -29,7 +33,7 @@ class RegisterController extends Controller
         'password'=>Hash::make($request->password),
        ]);
         if(Auth::attempt($request->only(['email','password']))){
-            return  redirect()->route('dashboard.index');
+            return  redirect()->route('dashboard.index')->with('msg','User registered successfully');
         }
         else
          {

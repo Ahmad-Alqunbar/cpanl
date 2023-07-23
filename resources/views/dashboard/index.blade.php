@@ -4,6 +4,12 @@
 @endsection
 
 @section('contents')
+@if(session()->has('msg'))
+<div class="alert alert-success text-dark text-center" role="alert">
+{{session('msg')}}</div>
+@else
+
+@endif
 
 <div class="border border-2 shadow-md rounded m-2 p-3 bg-light text-dark justify-center text-center">
    <div class="container">
