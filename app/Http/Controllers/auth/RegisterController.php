@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -27,13 +28,15 @@ class RegisterController extends Controller
        ]);
        try {
        // dd($request->all());
-       User::Create([
+       $user=User::Create([
         'name'=>$request->name,
         'email'=>$request->email,
         'password'=>Hash::make($request->password),
        ]);
+
         if(Auth::attempt($request->only(['email','password']))){
-            return  redirect()->route('dashboard.index')->with('msg','User registered successfully');
+            event(new Registered($user));
+           return redirect()->route('verification.notice');
         }
         else
          {

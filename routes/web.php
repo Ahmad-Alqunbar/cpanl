@@ -5,8 +5,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\RegisterController;
-
 use App\Http\Controllers\auth\RestPasswordController;
+use App\Http\Controllers\auth\EmailVerificationController;
+use App\Http\Controllers\ProductsController;
 
 
 /*
@@ -38,3 +39,14 @@ Route::post('/request_password',[RestPasswordController::class,'sendEmail'])->na
 ///////after return from email//////
 Route::get('/reset_password/{token}',[RestPasswordController::class,'resetForm'])->name('password.reset');
 Route::post('/reset_password',[RestPasswordController::class,'resetPassword'])->name('password.update');
+//////////////Email Verification/////////////////
+Route::get('/email/verify', [EmailVerificationController::class,'notice'])
+->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}',[EmailVerificationController::class,'verify'])
+->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification',[EmailVerificationController::class,'resend'])
+->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+////////////////////////product section ///////////////////////////
+Route::resource('/products', ProductsController::class);
