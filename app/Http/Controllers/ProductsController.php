@@ -15,9 +15,16 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(){
+
+        $this->middleware(['auth', 'verified']);
+
+    }
     public function index()
     {
-        return view('products.index');
+        $user=Auth::user();
+        $products=$user->products()->paginate(10);
+        return view('products.index',compact('products'));
     }
 
     /**
@@ -82,8 +89,8 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        //
-    }
+        $product=Product::find($id);
+        return view('products.show',compact('product'));    }
 
     /**
      * Show the form for editing the specified resource.
@@ -93,7 +100,8 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product=Product::find($id);
+        return view('products.edit',compact('product'));
     }
 
     /**
@@ -104,9 +112,51 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+{
+    $product = Product::find($id);
+
+    $request->validate([
+        'name' => ['required', 'min:3'],
+        'price' => ['required'],
+        'quantity' => ['required'],
+    ]);
+
+    if ($request->hasFile('image')) {
+        unlink(public_path('').'/storage/products/'.$product->image);
+
+        $image = $request->file('image');
+        $imageName = time() . '.' . $image->getClientOriginalName();
+
+        Storage::disk('public')->putFileAs('products', $image, $imageName);
+
+        try {
+            $product->update([
+                'name' => $request->name,
+                'price' => $request->price,
+                'quantity' => $request->quantity,
+                'image' => $imageName,
+                'user_id' => Auth::id(),
+            ]);
+            return redirect()->route('products.index')->with('msg', 'Product updated successfully');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('msg', 'There was a problem updating the product');
+        }
+    } else {
+        try {
+            $product->update([
+                'name' => $request->name,
+                'price' => $request->price,
+                'quantity' => $request->quantity,
+                'user_id' => Auth::id(),
+            ]);
+            return redirect()->route('products.index')->with('msg', 'Product updated successfully');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('msg', 'There was a problem updating the product');
+        }
     }
+}
 
     /**
      * Remove the specified resource from storage.
@@ -116,6 +166,24 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product=Product::find($id);
+        $owner=$product->user->id;
+        $AuthUser=Auth::id();
+           if($owner==$AuthUser){
+              if(is_file(public_path('').'/storage/products/'.$product->image))
+                {
+                    unlink(public_path('').'/storage/products/'.$product->image);
+                    $product->delete();
+                    return redirect()->back()->with('msg', 'Deleted Successfully');
+
+                }else {
+                    $product->delete();
+                    return redirect()->back()->with('msg', 'Deleted Successfully');
+                }
+
+           }else {
+            return redirect()->back()->with('msg', 'you dont have permission to delete this product');
+
+           }
     }
 }

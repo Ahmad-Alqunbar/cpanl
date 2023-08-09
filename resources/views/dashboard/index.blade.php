@@ -30,7 +30,7 @@
             <div class="col-md-4">
                 <div class="card p-3 bg-danger text-light"style="max-width:18rem;">
                     <div class="card-title">
-                        <a href="" class="link-light stretched-link">Products Management</a>
+                        <a href="{{route('products.index')}}" class="link-light stretched-link">Products Management</a>
 
                     </div>
                     <div class="card-body">
